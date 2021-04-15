@@ -26,7 +26,6 @@ client.connect(err => {
     const product = req.body;
     productsCollection.insertOne(product)
     .then(result => {
-      console.log("result",result);
       res.send(result.insertedCount > 0)
     });
   })
@@ -42,19 +41,18 @@ client.connect(err => {
 
   // getting data from database
   app.get('/products', (req, res) => {
-    productsCollection.find()
+    productsCollection.find({})
     .toArray((err, products) => {
-      console.log(products, err);
       res.send(products);
     })
   });
 
   // getting orders data from database
   app.get('/orders', (req, res) => {
-    ordersCollection.find()
+    ordersCollection.find({email: req.query.email})
     .toArray((err, docs) => {
+      console.log("orders", docs);
       res.send(docs);
-      console.log("error",err);
     })
   });
 
@@ -62,7 +60,6 @@ client.connect(err => {
   app.get('/product/:id', (req, res) => {
     productsCollection.find({_id: ObjectId(req.params.id)})
     .toArray((err, docs) => {
-      console.log(docs, err);
       res.send(docs);
     })
   });
