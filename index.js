@@ -49,6 +49,15 @@ client.connect(err => {
     })
   });
 
+  // getting orders data from database
+  app.get('/orders', (req, res) => {
+    ordersCollection.find()
+    .toArray((err, docs) => {
+      res.send(docs);
+      console.log("error",err);
+    })
+  });
+
   // find a single object via ObjectId
   app.get('/product/:id', (req, res) => {
     productsCollection.find({_id: ObjectId(req.params.id)})
@@ -56,6 +65,14 @@ client.connect(err => {
       console.log(docs, err);
       res.send(docs);
     })
+  });
+
+  // delete a product from database
+  app.delete('/deleteProduct/:id', (req, res) => {
+    productsCollection.findOneAndDelete({_id : ObjectId(req.params.id)})
+    .then(result => {
+      res.send(result.deletedCount > 0)
+    });
   });
 
 });
