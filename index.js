@@ -32,8 +32,8 @@ client.connect(err => {
 
   // inserting order to data base
   app.post('/addOrder', (req, res) => {
-    const order = req.body;
-    ordersCollection.insertOne(order)
+    const newOrder = req.body;
+    ordersCollection.insertOne(newOrder)
     .then(result => {
       res.send(result.insertedCount > 0)
     });
