@@ -66,7 +66,7 @@ client.connect(err => {
 
   // delete a product from database
   app.delete('/deleteProduct/:id', (req, res) => {
-    productsCollection.findOneAndDelete({_id : ObjectId(req.params.id)})
+    productsCollection.deleteOne({_id: ObjectId(req.params.id)})
     .then(result => {
       res.send(result.deletedCount > 0)
     });
